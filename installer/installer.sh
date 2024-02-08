@@ -43,7 +43,7 @@ if [ -f /custom-services.d/config_radarr.sh ]; then
 fi
 
 echo "Download AutoConfig service..."
-curl https://raw.githubusercontent.com/jsaddiction/Radarr_Kodi/main/installer/config_sonarr.sh -o /custom-services.d/RadarrKodiAutoConfig
+curl https://raw.githubusercontent.com/jsaddiction/Radarr_Kodi/main/installer/config_radarr.sh -o /custom-services.d/RadarrKodiAutoConfig
 echo "Done"
 
 exit
