@@ -29,6 +29,7 @@ pip install -r /config/scripts/Radarr_Kodi/requirements.txt --no-cache-dir --bre
 if [ ! -f /config/scripts/Radarr_Kodi/settings.yaml ]; then
 	echo "********** Adding Default Config ****************"
 	cp /config/scripts/Radarr_Kodi/src/config/default_config.yaml /config/scripts/Radarr_Kodi/settings.yaml
+fi
 
 echo "************ Set Permissions ************"
 chmod 777 -R /config/scripts/Radarr_Kodi
