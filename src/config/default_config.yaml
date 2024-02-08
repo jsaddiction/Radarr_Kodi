@@ -1,0 +1,34 @@
+logs:
+  level: INFO # Logging level: Options [DEBUG, INFO, WARNING, CRITICAL].
+  write_file: true # Write logging to file. Can be reviewed from radarr log file page
+library:
+  clean_after_update: false # Clean library after scanning.
+  skip_active: false # Prevent library scans while playing videos. Will wait if no clients are available.
+  full_scan_fallback: false # Fallback to full library scan if a failure occur, clean_after_update should also be set.
+  wait_for_nfo: false # Set to true if kodi is configured with a "local files only" scraper
+  nfo_timeout_minuets: 3 # Maximum amount of time in minuets to wait for NFO file creation. Per file
+  path_mapping: # List of path mappings.  Helpful if radarr and kodi mount directories differently.
+    - radarr: /mnt/movies # Directory containing series folders. From radarr's perspective
+      kodi: /storage/mnt/movies # Directory containing series folders. From kodi's perspective
+notifications: # Global Notification settings.  Display radarr events within kodi UI.
+  on_grab: true
+  on_download_new: true
+  on_download_upgrade: false
+  on_rename: false
+  on_delete: false
+  on_movie_add: false
+  on_movie_delete: false
+  on_health_issue: true
+  on_health_restored: false
+  on_application_update: true
+  on_manual_interaction_required: true
+  on_test: true # Notify on test events. Helpful when troubleshooting Kodi connections
+hosts: # List of kodi instances to manage (assumes each host accesses a shared library)
+  - name: Default # Generic name of the instance. Only used within logs
+    ip_addr: 127.0.0.1 # IP address of the instance.
+    port: 8080 # Port where the JSON-RPC interface is listening. Generally 8080.
+    user: change-me # Kodi HTTP Username
+    password: change-me # Kodi HTTP Password
+    enabled: false # Enable/disable this host. Offline hosts slow this script down, disable them here.
+    disable_notifications: false # Disable all notifications on this host
+    priority: 0 # Used to sort hosts. Lower numbers = higher priority
