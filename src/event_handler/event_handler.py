@@ -76,10 +76,7 @@ class EventHandler:
 
         # Scan for new movies
         new_movies = self.kodi.scan_directory(self.env.movie_file_dir, skip_active=self.cfg.library.skip_active)
-        if not new_movies:
-            self.log.warning(
-                "No movies were scanned into library from path %s. Falling back to full scan.", self.env.movie_file_dir
-            )
+        if not new_movies and self.cfg.library.full_scan_fallback:
             new_movies = self.kodi.full_scan(skip_active=self.cfg.library.skip_active)
 
         # Optionally, Clean Library
