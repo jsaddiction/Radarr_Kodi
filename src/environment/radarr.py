@@ -42,6 +42,9 @@ class RadarrEnvironment:
     is_upgrade: bool = field(default=None, metadata={"var": "Radarr_IsUpgrade"})
     movie_file_dir: str = field(default=None, metadata={"var": "Radarr_Movie_Path"})  # Directory of the movie file
     movie_file_path: str = field(default=None, metadata={"var": "Radarr_MovieFile_Path"})  # Full path to the movie file
+    movie_folder_size: int = field(
+        default=None, metadata={"var": "Radarr_Movie_Folder_Size"}
+    )  # Size of the movie folder
     # On_Download (upgrades) '|' delimited list of deleted paths
     movie_file_deleted_paths: list[str] = field(default_factory=list, metadata={"var": "Radarr_DeletedPaths"})
     # On_Rename '|' delimited list of previous paths

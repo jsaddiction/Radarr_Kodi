@@ -284,7 +284,7 @@ class EventHandler:
         self.log.info("Movie Delete Event Detected")
 
         # Edit library only if files were deleted
-        if self.env.movie_deleted_files:
+        if self.env.movie_deleted_files and self.env.movie_folder_size is not None:
             # Stop playback and remove episodes
             movies = self.kodi.get_movies_by_dir(self.env.movie_file_dir)
             for movie in movies:
