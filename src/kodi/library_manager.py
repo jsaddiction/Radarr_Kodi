@@ -163,12 +163,10 @@ class LibraryManager:
             for stopped_movie in stopped_movies:
                 # Skip wrong host
                 if stopped_movie.host_name != host.name:
-                    self.log.debug("Wrong Host: %s != %s", stopped_movie.host_name, host.name)
                     continue
 
                 # Skip wrong movie
                 if stopped_movie.movie != movie:
-                    self.log.debug("Wrong movie for this host: %s != %s", stopped_movie.movie, movie)
                     continue
 
                 # Start playback
