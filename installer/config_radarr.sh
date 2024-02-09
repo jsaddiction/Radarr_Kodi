@@ -46,7 +46,8 @@ else
     # Add radarr_kodi.py
     updateArr=$(curl -s "$arrUrl/api/v3/notification?" -X POST -H "Content-Type: application/json" -H "X-Api-Key: ${arrApiKey}" --data-raw '{"onGrab": true,"onDownload": true,"onUpgrade": true,"onRename": true,"onMovieAdded": true,"onMovieDelete": true,"onMovieFileDelete": true,"onMovieFileDeleteForUpgrade": true,"onHealthIssue": true,"onHealthRestored": true,"onApplicationUpdate": true,"onManualInteractionRequired": true,"supportsOnGrab": true,"supportsOnDownload": true,"supportsOnUpgrade": true,"supportsOnRename": true,"supportsOnMovieAdded": true,"supportsOnMovieDelete": true,"supportsOnMovieFileDelete": true,"supportsOnMovieFileDeleteForUpgrade": true,"supportsOnHealthIssue": true,"supportsOnHealthRestored": true,"supportsOnApplicationUpdate": true,"supportsOnManualInteractionRequired": true,"includeHealthWarnings": true,"name": "Radarr_Kodi","fields":[{"name":"path","value":"/config/scripts/Radarr_Kodi/radarr_kodi.py"},{"name":"arguments"}],"implementationName":"Custom Script","implementation":"CustomScript","configContract":"CustomScriptSettings","infoLink":"https://wiki.servarr.com/radarr/supported#customscript","message":{"message":"Testing will execute the script with the EventType set to Test, ensure your script handles this correctly","type":"warning"},"tags":[]}')
 
-    error=$(printf "%s" "$updateArr" | jq -r .errorMessage)
+    # error=$(printf "%s" "$updateArr" | jq -r .errorMessage)
+    error=$(jq -r .[0].errorMessage <<< "$updateArr")
 
     if [ -z "$error" ]; then
         echo "Script Configured Sucessfully"
