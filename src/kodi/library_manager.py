@@ -15,7 +15,7 @@ class LibraryManager:
     instances of kodi.
     """
 
-    PICKLE_PATH = Path(__file__).with_name("stopped_episodes.pk1")
+    PICKLE_PATH = Path(__file__).with_name("stopped_movies.pk1")
 
     def __init__(self, host_configs: list[HostConfig], path_maps: list[PathMapping]) -> None:
         self.log = logging.getLogger("Library-Manager")
@@ -58,7 +58,7 @@ class LibraryManager:
         """Serialize and store list of stopped movies
 
         Args:
-            stopped_eps (list[StoppedMovie]): Objects containing details of stopped library items
+            stopped_movies (list[StoppedMovie]): Objects containing details of stopped library items
         """
         self.log.debug("Storing stopped movies. %s", stopped_movies)
         try:
@@ -73,7 +73,7 @@ class LibraryManager:
         Returns:
             list[StoppedMovies]: Objects containing details of stopped library items
         """
-        self.log.debug("Reading stopped episodes file.")
+        self.log.debug("Reading stopped movies file.")
         try:
             with self.PICKLE_PATH.open(mode="rb") as file:
                 data = pickle.load(file)
@@ -168,7 +168,7 @@ class LibraryManager:
 
         stopped_movies = self._deserialize()
         if stopped_movies:
-            self.log.debug("Attempting to restart episodes %s", stopped_movies)
+            self.log.debug("Attempting to restart movies %s", stopped_movies)
         for host in self.hosts:
             for stopped_movie in stopped_movies:
                 # Skip wrong host
