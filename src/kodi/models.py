@@ -138,10 +138,10 @@ class MovieDetails:
     year: int = field(compare=False, hash=False)
     watched_state: WatchedState = field(compare=False, hash=False)
     imdb: str = field(default=None, compare=False, hash=False)
-    tmdb: str = field(default=None, compare=False, hash=False)
+    tmdb: str = field(default=None, compare=True, hash=False)
 
     def __str__(self) -> str:
-        return f"{self.title} ({self.year}) IMDB:{self.imdb} TMDB:{self.tmdb}"
+        return f"{self.title} ({self.year}) IMDB:{self.imdb} TMDB:{self.tmdb} WATCHED:{self.watched_state}"
 
 
 @dataclass(frozen=True)

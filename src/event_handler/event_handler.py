@@ -141,7 +141,7 @@ class EventHandler:
         for removed_movie in removed_movies:
             for new_movie in new_movies:
                 if removed_movie == new_movie:
-                    self.kodi.copy_ep_metadata(removed_movie, new_movie)
+                    self.kodi.copy_metadata(removed_movie, new_movie)
 
         # update remaining guis
         self.kodi.update_guis()
