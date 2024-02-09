@@ -192,8 +192,8 @@ class EventHandler:
             if not self.cfg.library.clean_after_update:
                 self.kodi.clean_library(skip_active=self.cfg.library.skip_active)
 
-        # Scan for new episodes
-        new_movies = self.kodi.scan_directory(self.env.series_path, skip_active=self.cfg.library.skip_active)
+        # Scan for new movies
+        new_movies = self.kodi.scan_directory(self.env.movie_file_dir, skip_active=self.cfg.library.skip_active)
 
         # Fall back to full library scan
         if not new_movies and self.cfg.library.full_scan_fallback:
