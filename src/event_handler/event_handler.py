@@ -289,7 +289,7 @@ class EventHandler:
             movies = self.kodi.get_movies_by_dir(self.env.movie_file_dir)
             for movie in movies:
                 self.kodi.stop_playback(movie, "Movie deleted", False)
-                self.kodi.remove_movie(movie.movie_id)
+                self.kodi.remove_movie(movie)
 
             # Optionally, Clean Library
             if self.cfg.library.clean_after_update:
