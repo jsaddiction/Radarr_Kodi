@@ -286,7 +286,7 @@ class KodiRPC:
             "displaytime": int(display_time),
             "image": "https://github.com/jsaddiction/Radarr_Kodi/raw/main/img/radarr.png",
         }
-        self.log.info("Sending GUI Notification :: (title='%s', msg='%s')", title, msg)
+        self.log.info("Sending GUI Notification :: title='%s', msg='%s'", title, msg)
         try:
             self._req("GUI.ShowNotification", params=params)
         except APIError as e:
