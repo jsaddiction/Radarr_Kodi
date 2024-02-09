@@ -60,7 +60,7 @@ class LibraryManager:
         Args:
             stopped_movies (list[StoppedMovie]): Objects containing details of stopped library items
         """
-        self.log.debug("Storing stopped movies. %s", stopped_movies)
+        self.log.debug("Storing stopped movies in %s. %s", self.PICKLE_PATH, stopped_movies)
         try:
             with self.PICKLE_PATH.open(mode="wb") as file:
                 pickle.dump(stopped_movies, file)
@@ -73,7 +73,7 @@ class LibraryManager:
         Returns:
             list[StoppedMovies]: Objects containing details of stopped library items
         """
-        self.log.debug("Reading stopped movies file.")
+        self.log.debug("Reading stopped movies file. %s", self.PICKLE_PATH)
         try:
             with self.PICKLE_PATH.open(mode="rb") as file:
                 data = pickle.load(file)
