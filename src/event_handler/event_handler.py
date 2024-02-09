@@ -129,7 +129,7 @@ class EventHandler:
                 self.kodi.clean_library(skip_active=self.cfg.library.skip_active)
 
         # Scan show directory and fall back to full scan if configured
-        new_movies = self.kodi.scan_directory(self.env.movie_file_path, skip_active=self.cfg.library.skip_active)
+        new_movies = self.kodi.scan_directory(self.env.movie_file_dir, skip_active=self.cfg.library.skip_active)
         if not new_movies and self.cfg.library.full_scan_fallback:
             new_movies = self.kodi.full_scan(skip_active=self.cfg.library.skip_active)
 

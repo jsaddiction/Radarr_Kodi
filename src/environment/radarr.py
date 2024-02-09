@@ -40,6 +40,7 @@ class RadarrEnvironment:
     movie_year: int = field(default=None, metadata={"var": "Radarr_Movie_Year"})
     movie_tmdbid: int = field(default=None, metadata={"var": "Radarr_Movie_tmdbid"})
     is_upgrade: bool = field(default=None, metadata={"var": "Radarr_IsUpgrade"})
+    movie_file_dir: str = field(default=None, metadata={"var": "Radarr_Movie_Path"})  # Directory of the movie file
     movie_file_path: str = field(default=None, metadata={"var": "Radarr_MovieFile_Path"})  # Full path to the movie file
     # On_Download (upgrades) '|' delimited list of deleted paths
     movie_file_deleted_paths: list[str] = field(default_factory=list, metadata={"var": "Radarr_DeletedPaths"})
