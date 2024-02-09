@@ -84,16 +84,6 @@ class LibraryManager:
 
         return data
 
-    # def _get_all_episodes(self) -> list[EpisodeDetails]:
-    #     """Get all episodes from library. This is a SQL expensive operation"""
-    #     self.log.info("Getting all episodes. This may take a moment.")
-    #     for host in self.hosts:
-    #         episodes = host.get_all_episodes()
-    #         if episodes:
-    #             return episodes
-
-    #     return []
-
     # -------------- GUI Methods -------------------
     def update_guis(self) -> None:
         """Update GUI for all hosts not scanned"""
@@ -168,7 +158,7 @@ class LibraryManager:
 
         stopped_movies = self._deserialize()
         if stopped_movies:
-            self.log.debug("Attempting to restart movies %s", stopped_movies)
+            self.log.debug("Attempting to restart movies [%s]", ", ".join(stopped_movies))
         for host in self.hosts:
             for stopped_movie in stopped_movies:
                 # Skip wrong host
@@ -176,7 +166,7 @@ class LibraryManager:
                     continue
 
                 # Skip wrong movie
-                if stopped_movie != movie:
+                if stopped_movie.movie != movie:
                     continue
 
                 # Start playback

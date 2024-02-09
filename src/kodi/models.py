@@ -154,4 +154,4 @@ class StoppedMovie:
     paused: bool
 
     def __str__(self) -> str:
-        return f"{self.movie} on {self.host_name} stopped at {self.position}"
+        return f"{self.movie} on {self.host_name} stopped at {self.position:.2f}%"
