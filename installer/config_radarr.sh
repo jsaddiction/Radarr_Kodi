@@ -7,7 +7,7 @@ if [ -z "$arrUrl" ] || [ -z "$arrApiKey" ]; then
 if [ "$arrUrlBase" == "null" ]; then
     arrUrlBase=""
 else
-    arrUrlBase="/$(echo "$arrUrlBase" | sed "s/\///g")"
+    arrUrlBase="/$(echo "$arrUrlBase" | sed "s/\///")"
 fi
 arrName="$(cat /config/config.xml | xq | jq -r .Config.InstanceName)"
 arrApiKey="$(cat /config/config.xml | xq | jq -r .Config.ApiKey)"
@@ -15,6 +15,7 @@ arrPort="$(cat /config/config.xml | xq | jq -r .Config.Port)"
 arrUrl="http://127.0.0.1:${arrPort}${arrUrlBase}"
 fi
 
+# Verify API access
 until false
 do
 arrApiTest=""
