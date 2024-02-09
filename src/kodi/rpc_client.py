@@ -284,7 +284,7 @@ class KodiRPC:
             "title": str(title),
             "message": str(msg),
             "displaytime": int(display_time),
-            "image": "https://github.com/jsaddiction/Radarr_Kodi/blob/main/img/Radarr.png",
+            "image": "https://github.com/jsaddiction/Radarr_Kodi/raw/main/img/Radarr.png",
         }
         self.log.info("Sending GUI Notification :: title='%s', msg='%s'", title, msg)
         try:
