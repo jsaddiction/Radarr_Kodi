@@ -158,7 +158,7 @@ class LibraryManager:
 
         stopped_movies = self._deserialize()
         if stopped_movies:
-            self.log.debug("Attempting to restart movies [%s]", ", ".join(stopped_movies))
+            self.log.debug("Attempting to restart movies [%s]", ", ".join([str(x) for x in stopped_movies]))
         for host in self.hosts:
             for stopped_movie in stopped_movies:
                 # Skip wrong host
