@@ -211,7 +211,7 @@ class LibraryManager:
                     continue
 
                 # Scan the directory
-                if host.scan_series_dir(directory):
+                if host.scan_movie_dir(directory):
                     scanned = True
                     break
 

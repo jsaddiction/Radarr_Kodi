@@ -383,7 +383,7 @@ class KodiRPC:
                 return None
 
     # --------------- Library Methods ----------------
-    def scan_series_dir(self, directory: str) -> bool:
+    def scan_movie_dir(self, directory: str) -> bool:
         """Scan a directory"""
         # Ensure trailing slash
         mapped_path = self._map_path(directory)
