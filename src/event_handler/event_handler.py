@@ -281,12 +281,12 @@ class EventHandler:
 
     def delete_movie(self) -> None:
         """Deleting a Movie"""
-        self.log.info("Series Delete Event Detected")
+        self.log.info("Movie Delete Event Detected")
 
         # Edit library only if files were deleted
         if self.env.movie_deleted_files:
             # Stop playback and remove episodes
-            movies = self.kodi.get_movies_by_dir(self.env.movie_file_path)
+            movies = self.kodi.get_movies_by_dir(self.env.movie_file_dir)
             for movie in movies:
                 self.kodi.stop_playback(movie, "Movie deleted", False)
                 self.kodi.remove_movie(movie.movie_id)
@@ -307,7 +307,7 @@ class EventHandler:
             return
 
         # Notify Clients
-        title = "Radarr Deleted Show"
+        title = "Radarr - Movie Deleted"
         self.kodi.notify(title=title, msg=f"{self.env.movie_title} ({self.env.movie_year})")
 
     def health_issue(self) -> None:
