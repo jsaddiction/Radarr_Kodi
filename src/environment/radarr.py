@@ -38,20 +38,14 @@ class RadarrEnvironment:
     event_type: Events = field(default=Events.UNKNOWN, metadata={"var": "Radarr_EventType"})
     movie_title: str = field(default=None, metadata={"var": "Radarr_Movie_Title"})
     movie_year: int = field(default=None, metadata={"var": "Radarr_Movie_Year"})
-    movie_tmdbid: int = field(default=None, metadata={"var": "Radarr_Movie_tmdbid"})
     is_upgrade: bool = field(default=None, metadata={"var": "Radarr_IsUpgrade"})
     movie_file_dir: str = field(default=None, metadata={"var": "Radarr_Movie_Path"})  # Directory of the movie file
     movie_file_path: str = field(default=None, metadata={"var": "Radarr_MovieFile_Path"})  # Full path to the movie file
-    movie_folder_size: int = field(
-        default=None, metadata={"var": "Radarr_Movie_Folder_Size"}
-    )  # Size of the movie folder
-    # On_Download (upgrades) '|' delimited list of deleted paths
+    movie_folder_size: int = field(default=None, metadata={"var": "Radarr_Movie_Folder_Size"})
     movie_file_deleted_paths: list[str] = field(default_factory=list, metadata={"var": "Radarr_DeletedPaths"})
-    # On_Rename '|' delimited list of previous paths
     movie_file_prev_paths: list[str] = field(default_factory=list, metadata={"var": "Radarr_MovieFile_PreviousPaths"})
     movie_file_paths: list[str] = field(default_factory=list, metadata={"var": "Radarr_MovieFilePaths"})  # On_Rename
     movie_file_delete_reason: str = field(default=None, metadata={"var": "Radarr_MovieFile_DeleteReason"})
-    # this might need to be a bool type
     movie_deleted_files: str = field(default=None, metadata={"var": "Radarr_Movie_DeletedFiles"})
     health_issue_msg: str = field(default=None, metadata={"var": "Radarr_Health_Issue_Message"})
     health_restored_msg: str = field(default=None, metadata={"var": "Radarr_Health_Restored_Message"})
