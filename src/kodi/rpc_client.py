@@ -157,22 +157,22 @@ class KodiRPC:
             return None
 
     @staticmethod
-    def _parse_movie_details(episode_data: dict) -> MovieDetails | None:
+    def _parse_movie_details(movie_data: dict) -> MovieDetails | None:
         try:
             return MovieDetails(
-                movie_id=episode_data["movieid"],
-                file=episode_data["file"],
-                title=episode_data["title"],
-                year=episode_data["year"],
-                imdb=episode_data["uniqueid"].get("imdb"),
-                tmdb=episode_data["uniqueid"].get("tmdb"),
+                movie_id=movie_data["movieid"],
+                file=movie_data["file"],
+                title=movie_data["title"],
+                year=movie_data["year"],
+                imdb=movie_data["uniqueid"].get("imdb"),
+                tmdb=movie_data["uniqueid"].get("tmdb"),
                 watched_state=WatchedState(
-                    play_count=episode_data["playcount"],
-                    date_added=KodiRPC._to_dt(episode_data["dateadded"]),
-                    last_played=KodiRPC._to_dt(episode_data["lastplayed"]),
+                    play_count=movie_data["playcount"],
+                    date_added=KodiRPC._to_dt(movie_data["dateadded"]),
+                    last_played=KodiRPC._to_dt(movie_data["lastplayed"]),
                     resume=ResumeState(
-                        position=episode_data["resume"]["position"],
-                        total=episode_data["resume"]["total"],
+                        position=movie_data["resume"]["position"],
+                        total=movie_data["resume"]["total"],
                     ),
                 ),
             )
@@ -431,8 +431,8 @@ class KodiRPC:
 
     def clean_video_library(self) -> bool:
         """Clean Video Library"""
-        # Passing a series_dir does not initiate clean. With or without trailing '/'
-        # Preferably, should set {'directory': series_dir} vice {'content': 'tvshows'}
+        # Passing a movie_dir does not initiate clean. With or without trailing '/'
+        # Preferably, should set {'directory': movie_dir} vice {'content': 'movies'}
         params = {"showdialogs": False, "content": "movies"}
 
         self.log.info("Cleaning Movie library.")
@@ -541,152 +541,3 @@ class KodiRPC:
 
         self.library_scanned = True
         return True
-
-    # ----------------- Episode Methods ---------------
-    # def set_episode_watched_state(self, episode: EpisodeDetails, new_ep_id: int) -> bool:
-    #     """Set Episode Watched State"""
-    #     self.log.debug("Setting watched state %s on %s", episode.watched_state, episode)
-    #     params = {
-    #         "episodeid": new_ep_id,
-    #         "playcount": episode.watched_state.play_count,
-    #         "lastplayed": episode.watched_state.last_played_str,
-    #         "dateadded": episode.watched_state.date_added_str,
-    #         "resume": {
-    #             "position": episode.watched_state.resume.position,
-    #             "total": episode.watched_state.resume.total,
-    #         },
-    #     }
-
-    #     try:
-    #         self._req("VideoLibrary.SetEpisodeDetails", params=params)
-    #     except APIError as e:
-    #         self.log.warning("Failed to set episode metadata. Error: %s", e)
-    #         return False
-
-    #     return True
-
-    # def get_all_episodes(self) -> list[EpisodeDetails]:
-    #     """Get all episodes in library, waits upto a minuet for response"""
-    #     self.log.debug("Getting all episodes")
-    #     params = {"properties": EP_PROPERTIES}
-    #     try:
-    #         resp = self._req("VideoLibrary.GetEpisodes", params=params, timeout=60)
-    #     except APIError as e:
-    #         self.log.warning("Failed to get all episodes. Error: %s", e)
-    #         return []
-
-    #     return [self._parse_ep_details(x) for x in resp.result["episodes"]]
-
-    # def get_episodes_from_file(self, file_path: str) -> list[EpisodeDetails]:
-    #     """Get details of episodes given a file_path"""
-    #     mapped_path = self._map_path(file_path)
-    #     file_name = self._get_filename_from_path(mapped_path)
-    #     file_dir = self._get_dirname_from_path(mapped_path)
-    #     params = {
-    #         "properties": EP_PROPERTIES,
-    #         "filter": {
-    #             "and": [
-    #                 {"operator": "startswith", "field": "path", "value": file_dir},
-    #                 {"operator": "is", "field": "filename", "value": file_name},
-    #             ]
-    #         },
-    #     }
-
-    #     self.log.debug("Getting all episodes from path %s", mapped_path)
-    #     try:
-    #         resp = self._req("VideoLibrary.GetEpisodes", params=params)
-    #     except APIError as e:
-    #         self.log.warning("Failed to get episodes from file '%s'. Error: %s", mapped_path, e)
-    #         return []
-
-    #     return [self._parse_ep_details(x) for x in resp.result["episodes"]]
-
-    # def get_episodes_from_dir(self, series_dir: str) -> list[EpisodeDetails]:
-    #     """Get all episodes given a directory"""
-    #     mapped_path = self._map_path(series_dir)
-    #     params = {
-    #         "properties": EP_PROPERTIES,
-    #         "filter": {"operator": "startswith", "field": "path", "value": mapped_path},
-    #     }
-
-    #     self.log.debug("Getting all episodes in %s", mapped_path)
-    #     try:
-    #         resp = self._req("VideoLibrary.GetEpisodes", params=params)
-    #     except APIError as e:
-    #         self.log.warning("Failed to get episodes from directory '%s'. Error: %s", mapped_path, e)
-    #         return []
-
-    #     return [self._parse_ep_details(x) for x in resp.result["episodes"]]
-
-    # def get_episode_from_id(self, episode_id: int) -> EpisodeDetails | None:
-    #     """Get details of a specific episode"""
-    #     params = {"episodeid": episode_id, "properties": EP_PROPERTIES}
-    #     self.log.debug("Getting episode details with episode id %s", episode_id)
-    #     try:
-    #         resp = self._req("VideoLibrary.GetEpisodeDetails", params=params)
-    #     except APIError as e:
-    #         self.log.warning("Failed to get episode from id '%s'. Error: %s", episode_id, e)
-    #         return None
-
-    #     return self._parse_ep_details(resp.result["episodedetails"])
-
-    # def remove_episode(self, episode_id: int) -> bool:
-    #     """Remove an episode from library and return it's details"""
-    #     params = {"episodeid": episode_id}
-    #     self.log.debug("Removing episode with episode id %s", episode_id)
-    #     try:
-    #         self._req("VideoLibrary.RemoveEpisode", params=params)
-    #     except APIError as e:
-    #         self.log.warning("Failed to remove episode by id '%s'. Error: %s", episode_id, e)
-    #         return False
-
-    #     self.library_scanned = True
-    #     return True
-
-    # # ------------------ Show Methods ------------------
-    # def remove_tvshow(self, show_id: int) -> ShowDetails | None:
-    #     """Remove a TV Show from library and return it's details"""
-    #     show_details = self.get_show_from_id(show_id)
-    #     if not show_details:
-    #         return None
-
-    #     params = {"tvshowid": show_details.show_id}
-    #     self.log.debug("Removing TV Show with tvshowid %s", show_id)
-    #     try:
-    #         self._req("VideoLibrary.RemoveTVShow", params=params)
-    #     except APIError as e:
-    #         self.log.warning("Failed to remove tvshow by id '%s'. Error: %s", show_id, e)
-    #         return None
-
-    #     self.library_scanned = True
-
-    #     return show_details
-
-    # def get_shows_from_dir(self, directory: str) -> list[ShowDetails]:
-    #     """Get list of shows within a directory"""
-    #     mapped_path = self._map_path(directory)
-    #     params = {
-    #         "properties": SHOW_PROPERTIES,
-    #         "filter": {"operator": "startswith", "field": "path", "value": mapped_path},
-    #     }
-
-    #     self.log.debug("Getting shows in %s", mapped_path)
-    #     try:
-    #         resp = self._req("VideoLibrary.GetTVShows", params=params)
-    #     except APIError as e:
-    #         self.log.warning("Failed to get shows from directory '%s'. Error: %s", mapped_path, e)
-    #         return []
-
-    #     return [self._parse_show_details(x) for x in resp.result.get("tvshows")]
-
-    # def get_show_from_id(self, show_id: int) -> ShowDetails | None:
-    #     """Get details of a specific TV Show"""
-    #     params = {"tvshowid": show_id, "properties": SHOW_PROPERTIES}
-    #     self.log.debug("Getting show details with tvshowid %s", show_id)
-    #     try:
-    #         resp = self._req("VideoLibrary.GetTVShowDetails", params=params)
-    #     except APIError as e:
-    #         self.log.warning("Failed to get show from id '%s'. Error: %s", show_id, e)
-    #         return None
-
-    #     return self._parse_show_details(resp.result.get("tvshowdetails"))

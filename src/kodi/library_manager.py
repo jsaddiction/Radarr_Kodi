@@ -65,7 +65,7 @@ class LibraryManager:
             with self.PICKLE_PATH.open(mode="wb") as file:
                 pickle.dump(stopped_movies, file)
         except IOError as e:
-            self.log.warning("Failed to store stopped episodes. Error: %s", e)
+            self.log.warning("Failed to store stopped movies. Error: %s", e)
 
     def _deserialize(self) -> list[StoppedMovie]:
         """Deserialize previously stored, stopped movies. Deletes persistent storage once complete.
@@ -98,7 +98,7 @@ class LibraryManager:
 
     # -------------- Player Methods ----------------
     def stop_playback(self, movie: MovieDetails, reason: str, store_result: bool = True) -> None:
-        """Stop playback of a given episode on any host
+        """Stop playback of a given movie on any host
 
         Args:
             movie (MovieDetails): The movie to stop
@@ -107,16 +107,16 @@ class LibraryManager:
         """
         stopped_movies: list[StoppedMovie] = []
 
-        # Loop through players, get episode_id and player_id
+        # Loop through players, get movie_id and player_id
         for host in self.hosts:
             for player in host.active_players:
                 item = host.get_player_item(player.player_id)
 
-                # Skip if not an episode
+                # Skip if not a movie
                 if item and item.type.lower() != "movie":
                     continue
 
-                # Skip if not the episode we are looking for
+                # Skip if not the movie we are looking for
                 if item.item_id != movie.movie_id:
                     continue
 
@@ -131,14 +131,14 @@ class LibraryManager:
         if not stopped_movies:
             return
 
-        # Store results of stopped episodes
+        # Store results of stopped movies
         if store_result:
             self._serialize(stopped_movies)
 
         # Pause to allow UI to load before sending notifications
         sleep(2)
 
-        # Send notifications about the stopped episode to the GUI
+        # Send notifications about the stopped movie to the GUI
         title = "Radarr - Stopped Playback"
         for host in self.hosts:
             for stopped_movie in stopped_movies:
@@ -147,10 +147,10 @@ class LibraryManager:
                 host.notify(title, reason, force=True)
 
     def start_playback(self, movie: MovieDetails) -> None:
-        """Start playback of a given episode that was previously stopped and results were stored.
+        """Start playback of a given movie that was previously stopped and results were stored.
 
         Args:
-            episode (EpisodeDetails): The episode to start.
+            movie (MovieDetails): The movie to start.
         """
         # Do not attempt if nothing was previously stored
         if not self.PICKLE_PATH.exists():
@@ -185,10 +185,10 @@ class LibraryManager:
             skip_active (bool, optional): True if active hosts should be skipped. Defaults to False.
 
         Returns:
-            list[EpisodeDetails]: New episodes that were added to the library.
+            list[MovieDetails]: New movies that were added to the library.
         """
 
-        # Get current episodes
+        # Get current movies
         movies_before_scan = self.get_movies_by_dir(directory)
 
         # Scanning
@@ -209,7 +209,7 @@ class LibraryManager:
             if not scanned:
                 sleep(5)
 
-        # Get current episodes (after scan)
+        # Get current movies (after scan)
         movies_after_scan = self.get_movies_by_dir(directory)
 
         return [x for x in movies_after_scan if x not in movies_before_scan]

@@ -107,7 +107,7 @@ class EventHandler:
         """Downloaded an upgraded movie file"""
         self.log.info("Upgrade Movie Event Detected")
 
-        # Store library data for replaced episodes and remove those entries
+        # Store library data for replaced movies and remove those entries
         removed_movies = []
         for path in self.env.movie_file_deleted_paths:
             old_movies = self.kodi.get_movies_by_file(path)
@@ -130,7 +130,7 @@ class EventHandler:
             if not self.cfg.library.clean_after_update:
                 self.kodi.clean_library(skip_active=self.cfg.library.skip_active)
 
-        # Scan show directory and fall back to full scan if configured
+        # Scan movie directory and fall back to full scan if configured
         new_movies = self.kodi.scan_directory(self.env.movie_file_dir, skip_active=self.cfg.library.skip_active)
         if not new_movies and self.cfg.library.full_scan_fallback:
             new_movies = self.kodi.full_scan(skip_active=self.cfg.library.skip_active)
@@ -148,7 +148,7 @@ class EventHandler:
         # update remaining guis
         self.kodi.update_guis()
 
-        # Restart playback of previously stopped episode5
+        # Restart playback of previously stopped movies
         for movie in new_movies:
             self.kodi.start_playback(movie)
 
@@ -158,12 +158,12 @@ class EventHandler:
             return
 
         # notify clients
-        title = "Radarr - Upgraded Episode"
+        title = "Radarr - Upgraded Movie"
         for new_movie in new_movies:
             self.kodi.notify(title=title, msg=new_movie)
 
     def rename(self) -> None:
-        """Renamed an episode file"""
+        """Renamed a Movie file"""
         self.log.info("File Rename Event Detected")
 
         # Store library data for replaced movies and remove those entries
@@ -240,8 +240,8 @@ class EventHandler:
         # Store library data for removed movies and remove those entries
         removed_movies = []
         for old_movie in self.kodi.get_movies_by_file(self.env.movie_file_path):
-            self.kodi.stop_playback(old_movie, reason="Deleted Episode")
-            if self.kodi.remove_episode(old_movie):
+            self.kodi.stop_playback(old_movie, reason="Deleted Movie")
+            if self.kodi.remove_movie(old_movie):
                 removed_movies.append(old_movie)
 
         if not removed_movies:
@@ -262,21 +262,21 @@ class EventHandler:
             return
 
         # Notify clients
-        title = "Radarr - Deleted Episode"
+        title = "Radarr - Deleted Movie"
         for movie in removed_movies:
             self.kodi.notify(title=title, msg=movie)
 
     def add_movie(self) -> None:
-        """Adding a Series"""
+        """Adding a Movie"""
         self.log.info("Add Movie Event Detected")
 
         # Skip notifications if disabled
         if not self.cfg.notifications.on_movie_add:
-            self.log.info("Series Add notifications disabled. Skipping.")
+            self.log.info("Movie Add notifications disabled. Skipping.")
             return
 
         # Notify clients
-        title = "Radarr - Series Added"
+        title = "Radarr - Movie Added"
         self.kodi.notify(title=title, msg=f"{self.env.movie_title} ({self.env.movie_year})")
 
     def delete_movie(self) -> None:
@@ -285,7 +285,7 @@ class EventHandler:
 
         # Edit library only if files were deleted
         if self.env.movie_deleted_files and self.env.movie_folder_size is not None:
-            # Stop playback and remove episodes
+            # Stop playback and remove movies
             movies = self.kodi.get_movies_by_dir(self.env.movie_file_dir)
             for movie in movies:
                 self.kodi.stop_playback(movie, "Movie deleted", False)

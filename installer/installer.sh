@@ -34,7 +34,7 @@ fi
 echo "************ Set Permissions ************"
 chmod 777 -R /config/scripts/Radarr_Kodi
 
-echo "************ Configuring Sonarr *********"
+echo "************ Configuring Radarr *********"
 if [ ! -d /custom-services.d ]; then
     mkdir -p /custom-services.d
 fi

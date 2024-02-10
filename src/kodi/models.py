@@ -146,7 +146,7 @@ class MovieDetails:
 
 @dataclass(frozen=True)
 class StoppedMovie:
-    """Episode that was playing during delete event"""
+    """Movie that was playing during delete event"""
 
     movie: MovieDetails
     host_name: str

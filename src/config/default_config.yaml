@@ -8,8 +8,8 @@ library:
   wait_for_nfo: false # Set to true if kodi is configured with a "local files only" scraper
   nfo_timeout_minuets: 3 # Maximum amount of time in minuets to wait for NFO file creation. Per file
   path_mapping: # List of path mappings.  Helpful if radarr and kodi mount directories differently.
-    - radarr: /mnt/movies # Directory containing series folders. From radarr's perspective
-      kodi: /storage/mnt/movies # Directory containing series folders. From kodi's perspective
+    - radarr: /mnt/movies # Directory containing movie folders. From radarr's perspective
+      kodi: /storage/mnt/movies # Directory containing movie folders. From kodi's perspective
 notifications: # Global Notification settings.  Display radarr events within kodi UI.
   on_grab: true
   on_download_new: true
