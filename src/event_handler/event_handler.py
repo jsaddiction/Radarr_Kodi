@@ -81,7 +81,7 @@ class EventHandler:
 
         # Optionally, Clean Library
         if self.cfg.library.clean_after_update:
-            self.kodi.clean_library()
+            self.kodi.clean_library(skip_active=self.cfg.library.skip_active)
 
         # Exit early if nothing was scanned into the library
         if not new_movies:
@@ -137,7 +137,7 @@ class EventHandler:
 
         # Optionally, Clean Library
         if self.cfg.library.clean_after_update:
-            self.kodi.clean_library()
+            self.kodi.clean_library(skip_active=self.cfg.library.skip_active)
 
         # reapply metadata from old library entries
         for removed_movie in removed_movies:
@@ -201,7 +201,7 @@ class EventHandler:
 
         # Optionally, Clean Library
         if self.cfg.library.clean_after_update:
-            self.kodi.clean_library()
+            self.kodi.clean_library(skip_active=self.cfg.library.skip_active)
 
         # Reapply metadata
         for removed_movie in removed_movies:
@@ -293,7 +293,7 @@ class EventHandler:
 
             # Optionally, Clean Library
             if self.cfg.library.clean_after_update:
-                self.kodi.clean_library()
+                self.kodi.clean_library(skip_active=self.cfg.library.skip_active)
 
             # Update GUIs
             self.kodi.update_guis()
