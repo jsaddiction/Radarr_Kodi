@@ -24,6 +24,8 @@ class LibraryManager:
         for cfg in host_configs:
             if host := self._create_host(cfg, path_maps):
                 self.hosts.append(host)
+            else:
+                self.log.info("Failed to connect to %s", cfg.name)
 
     def _create_host(self, cfg: HostConfig, path_maps: list[PathMapping]) -> KodiRPC:
         """Create a new KodiRPC instance and return it if connection is successful"""
