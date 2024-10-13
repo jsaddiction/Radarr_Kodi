@@ -227,6 +227,7 @@ class KodiRPC:
     def _req(self, method: str, params: dict = None, timeout: int = None) -> KodiResponse | None:
         """Send request to this Kodi Host"""
         req_params = {"jsonrpc": "2.0", "id": self.req_id, "method": method}
+        timeout = timeout or self.TIMEOUT
         if params:
             req_params["params"] = params
         response = None
