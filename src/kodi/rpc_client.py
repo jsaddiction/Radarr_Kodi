@@ -100,8 +100,8 @@ class KodiRPC:
         """Return True if Kodi Host is responsive"""
         try:
             resp = self._req("JSONRPC.Ping")
-        except APIError as e:
-            self.log.warning("Failed to ping host. Error: %s", e)
+        except APIError:
+            self.log.warning("Failed to ping host.")
             return False
 
         return resp.result == "pong"

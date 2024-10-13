@@ -20,7 +20,10 @@ class LibraryManager:
     def __init__(self, host_configs: list[HostConfig], path_maps: list[PathMapping]) -> None:
         self.log = logging.getLogger("Library-Manager")
         self.log.debug("Building list of Kodi Hosts")
-        self.hosts: list[KodiRPC] = [self._create_host(cfg, path_maps) for cfg in host_configs if cfg.enabled]
+        self.hosts: list[KodiRPC] = []
+        for cfg in host_configs:
+            if host := self._create_host(cfg, path_maps):
+                self.hosts.append(host)
 
     def _create_host(self, cfg: HostConfig, path_maps: list[PathMapping]) -> KodiRPC:
         """Create a new KodiRPC instance and return it if connection is successful"""
