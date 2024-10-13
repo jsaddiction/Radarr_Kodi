@@ -21,6 +21,13 @@ def main() -> None:
         sys.exit(0)
     log.info("Starting...")
     kodi = LibraryManager(cfg.hosts, cfg.library.path_mapping)
+
+    # Break if no hosts are available
+    if not kodi.hosts:
+        log.critical("Unable to modify library. No active Kodi Hosts.")
+        kodi.dispose_hosts()
+        sys.exit(1)
+
     event_handler = EventHandler(ENV, cfg, kodi)
 
     log.debug("========== Environment ==========")
