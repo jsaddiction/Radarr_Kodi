@@ -16,6 +16,7 @@ if [ ! -d /config/scripts ]; then
 fi
 
 echo "************ Download / Update Repo ************"
+git config --global --add safe.directory /config/scripts/Radarr_Kodi
 if [ -d /config/scripts/Radarr_Kodi ]; then
     git -C /config/scripts/Radarr_Kodi pull
 else

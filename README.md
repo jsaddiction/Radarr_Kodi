@@ -68,8 +68,8 @@ MANUAL: (Not supported)
 
 DOCKER: ([linuxserver.io Radarr](https://hub.docker.com/r/linuxserver/radarr))
 
-- Create a directory and map it to `/config/custom-cont-init.d/`
-- Download and place [script_init.sh](https://github.com/jsaddiction/Radarr_Kodi/blob/main/script_init.sh) in `/config/custom-cont-init.d`
+- Create a directory and map it to `/custom-cont-init.d/`
+- Download and place [script_init.sh](https://github.com/jsaddiction/Radarr_Kodi/blob/main/script_init.sh) in `/custom-cont-init.d`
 - Start the container
 - Navigate to and edit `/config/scripts/Radarr_Kodi/settings.yaml`
 
