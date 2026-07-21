@@ -87,20 +87,9 @@ class RadarrEnvironment:
                 continue
 
             # Based on attribute type, store this environment variable's value
-            if issubclass(attr.type, Events):
-                self.__setattr__(attr.name, Events(value))
-
-            elif issubclass(attr.type, str):
-                self.__setattr__(attr.name, value.strip())
-
-            elif issubclass(attr.type, bool):
-                self.__setattr__(attr.name, self._parse_bool(value))
-
-            elif issubclass(attr.type, int):
-                self.__setattr__(attr.name, self._parse_int(value))
-
-            # Handle lists
-            elif get_origin(attr.type) == list:
+            # Lists must be checked first: parameterized generics like list[str]
+            # are not classes, and issubclass() raises TypeError on them (Python 3.14+)
+            if get_origin(attr.type) == list:
                 list_type = get_args(attr.type)[0]
 
                 # List of strings
@@ -112,3 +101,15 @@ class RadarrEnvironment:
                 elif issubclass(list_type, int):
                     value_lst = [self._parse_int(x) for x in value.split(",")]
                     self.__setattr__(attr.name, value_lst)
+
+            elif issubclass(attr.type, Events):
+                self.__setattr__(attr.name, Events(value))
+
+            elif issubclass(attr.type, str):
+                self.__setattr__(attr.name, value.strip())
+
+            elif issubclass(attr.type, bool):
+                self.__setattr__(attr.name, self._parse_bool(value))
+
+            elif issubclass(attr.type, int):
+                self.__setattr__(attr.name, self._parse_int(value))
