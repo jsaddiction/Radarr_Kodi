@@ -67,14 +67,20 @@ class KodiRPC:
         try:
             resp = self._req("XBMC.GetInfoBooleans", params=params)
         except APIError as e:
+            # Not cached: the next call asks again
             self.log.warning("Failed to get platform info. Error: %s", e)
-            self._platform = Platform.UNKNOWN
-            return self._platform
+            return Platform.UNKNOWN
 
-        # Check all platform booleans and return the first one that is True
+        # A busy Kodi can answer with an empty result instead of an error
+        if not isinstance(resp.result, dict):
+            self.log.warning("Failed to get platform info. Kodi returned: %r", resp.result)
+            return Platform.UNKNOWN
+
+        # Check all platform booleans and cache the first one that is True
         for k, v in resp.result.items():
             if v:
-                return Platform(k)
+                self._platform = Platform(k)
+                return self._platform
 
         # Return unknown if no platform booleans are True
         self._platform = Platform.UNKNOWN

@@ -123,8 +123,8 @@ class LibraryManager:
             for player in host.active_players:
                 item = host.get_player_item(player.player_id)
 
-                # Skip if not a movie
-                if item and item.type.lower() != "movie":
+                # Skip if not a library movie (non-library items have no id)
+                if not item or item.type.lower() != "movie":
                     continue
 
                 # Skip if not the movie we are looking for
